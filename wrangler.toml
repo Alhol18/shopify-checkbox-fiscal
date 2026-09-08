@@ -1,0 +1,20 @@
+name = "shopify-checkbox-fiscal"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+# Логи зберігаються 3 дні — без цього кожна помилка фіскалізації нечитна
+# заднім числом, видно тільки живим `wrangler tail`.
+[observability]
+enabled = true
+
+# KV: ідемпотентність (order_id → чек). Створення:
+#   npx wrangler kv namespace create PROCESSED
+# і встав отриманий id нижче.
+[[kv_namespaces]]
+binding = "PROCESSED"
+id = "<KV_NAMESPACE_ID>"
+
+# Секрети (НЕ в цьому файлі):
+#   npx wrangler secret put SHOPIFY_WEBHOOK_SECRET
+#   npx wrangler secret put CHECKBOX_LICENSE_KEY
+#   npx wrangler secret put CHECKBOX_CASHIER_PIN
