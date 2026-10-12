@@ -1,0 +1,14 @@
+{
+  "name": "shopify-checkbox-fiscal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "deploy": "wrangler deploy"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

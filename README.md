@@ -1,5 +1,7 @@
 # shopify-checkbox-fiscal
 
+[![tests](https://github.com/Alhol18/shopify-checkbox-fiscal/actions/workflows/test.yml/badge.svg)](https://github.com/Alhol18/shopify-checkbox-fiscal/actions/workflows/test.yml)
+
 Cloudflare Worker that fiscalises paid Shopify orders through
 [CheckBox](https://checkbox.ua) — the Ukrainian software cash register (ПРРО).
 An order gets paid, Shopify fires a webhook, the Worker issues a fiscal receipt
@@ -64,6 +66,23 @@ Then point a Shopify webhook (`orders/paid`, JSON) at the Worker URL and call
 
 Comments in the source are in Ukrainian — that is where the CheckBox API
 behaviour is documented, and that is who runs into it.
+
+## Tests
+
+```bash
+npm test
+```
+
+No dependencies here either: Node's built-in test runner drives the Worker
+through its real `fetch` entry point against a fake cash register, so the tests
+see exactly what Shopify sends and what CheckBox receives.
+
+| File | What it pins down |
+|---|---|
+| `test/webhook.test.js` | Signature checks, idempotency, shift opening, retries, a receipt that was created before the connection dropped |
+| `test/receipt.test.js` | Kopeck arithmetic, rounding gaps, shipping, and the three fallbacks for a free gift line |
+| `test/analytics.test.js` | GA4 and Meta payloads, hashed contacts, no double-counting on retries, analytics never blocking a receipt |
+| `test/selftest.test.js` | `/selftest` stays read-only |
 
 ## License
 
